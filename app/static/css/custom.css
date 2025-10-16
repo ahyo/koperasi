@@ -20,3 +20,34 @@
 .stat-card{ background: #f8fafc; border: 1px solid #eef2f7; }
 .placeholder-img{ background: #f3f6fb; border-bottom:1px solid #e9eef6; }
 .object-fit-cover{ object-fit: cover; }
+
+/* Batasi gambar di card/berita supaya tidak overflow */
+.card-text img,
+.trix-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: .5rem;
+  margin: .25rem 0;
+  object-fit: contain;
+}
+
+/* Konten panjang tanpa spasi biar patah baris */
+.card-text,
+.trix-content {
+  overflow-wrap: anywhere;
+  /* atau word-break: break-word; */
+}
+
+/* OPSIONAL: di beranda, sembunyikan img di ringkasan agar layout rapih */
+.home .card-text img {
+  display: none !important;
+}
+
+/* OPSIONAL: 2–3 baris saja di ringkasan */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
