@@ -13,14 +13,19 @@ from werkzeug.utils import secure_filename
 templates = Jinja2Templates(directory="app/templates")
 router = APIRouter(tags=["register"])
 
-ALLOWED_EXT = {"png","jpg","jpeg","gif","webp"}
+ALLOWED_EXT = {"png", "jpg", "jpeg", "gif", "webp"}
+
 
 def allowed_file(filename: str) -> bool:
-    return "." in filename and filename.rsplit(".",1)[1].lower() in ALLOWED_EXT
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXT
+
 
 @router.get("/register", response_class=HTMLResponse, name="register")
 def register_form(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request, "errors": {}, "form": {}})
+    return templates.TemplateResponse(
+        "register.html", {"request": request, "errors": {}, "form": {}}
+    )
+
 
 @router.post("/register", response_class=HTMLResponse, name="register_submit")
 async def register_submit(
@@ -36,10 +41,21 @@ async def register_submit(
     db: Session = Depends(get_db),
 ):
     errors = {}
-    form_data = {"name":name, "email":email, "phone":phone, "address":address, "dob":dob, "occupation":occupation, "membership_type":membership_type}
-    if not name.strip(): errors["name"] = "Nama wajib diisi."
-    if not email.strip(): errors["email"] = "Email wajib diisi."
-    if not phone.strip(): errors["phone"] = "No. HP wajib diisi."
+    form_data = {
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "address": address,
+        "dob": dob,
+        "occupation": occupation,
+        "membership_type": membership_type,
+    }
+    if not name.strip():
+        errors["name"] = "Nama wajib diisi."
+    if not email.strip():
+        errors["email"] = "Email wajib diisi."
+    if not phone.strip():
+        errors["phone"] = "No. HP wajib diisi."
 
     photo_path = None
     if photo and photo.filename:
@@ -55,6 +71,7 @@ async def register_submit(
             photo_path = f"static/img/uploads/{fname}"
 
     from datetime import date as _date
+
     dob_date = None
     if dob.strip():
         try:
@@ -63,7 +80,9 @@ async def register_submit(
             errors["dob"] = "Format tanggal lahir harus YYYY-MM-DD."
 
     if errors:
-        return templates.TemplateResponse("register.html", {"request": request, "errors": errors, "form": form_data})
+        return templates.TemplateResponse(
+            "register.html", {"request": request, "errors": errors, "form": form_data}
+        )
 
     m = Member(
         name=name.strip(),
@@ -86,6 +105,11 @@ async def register_submit(
             errors["email"] = "Email sudah terdaftar."
         else:
             errors["general"] = "Terjadi kesalahan. Coba lagi."
-        return templates.TemplateResponse("register.html", {"request": request, "errors": errors, "form": form_data})
+        return templates.TemplateResponse(
+            "register.html", {"request": request, "errors": errors, "form": form_data}
+        )
 
-    return RedirectResponse(url=request.url_for("member_detail", member_id=m.id), status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse(
+        url=request.url_for("member_detail", member_id=m.id),
+        status_code=status.HTTP_303_SEE_OTHER,
+    )
