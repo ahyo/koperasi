@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Kegiatan Koperasi{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h1 class="h3 fw-bold mb-4"><i class="bi bi-calendar-week me-2"></i>Agenda Kegiatan</h1>
+  <div class="row g-4">
+    {% for a in activities %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 rounded-4 shadow-sm">
+        <div class="card-body d-flex flex-column">
+          <div class="small text-secondary mb-2"><i class="bi bi-geo-alt me-1"></i>{{ a.location or '—' }}</div>
+          <h5 class="card-title">{{ a.title }}</h5>
+          <div class="badge bg-primary-subtle text-primary-emphasis rounded-pill align-self-start"><i class="bi bi-calendar-event me-1"></i>{{ a.date.strftime('%d %b %Y') }}</div>
+          <p class="text-secondary mt-3">{{ a.description }}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-secondary">Belum ada kegiatan.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

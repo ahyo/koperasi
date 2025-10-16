@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Edit Anggota - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h1 class="h4 fw-bold mb-3">Edit Anggota</h1>
+  <form method="post" enctype="multipart/form-data">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Nama</label>
+        <input name="name" class="form-control" value="{{ item.name }}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input name="email" class="form-control" value="{{ item.email }}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">HP</label>
+        <input name="phone" class="form-control" value="{{ item.phone }}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Jenis Keanggotaan</label>
+        <select name="membership_type" class="form-select">
+          <option value="Reguler" {{ 'selected' if item.membership_type == 'Reguler' else '' }}>Reguler</option>
+          <option value="Premium" {{ 'selected' if item.membership_type == 'Premium' else '' }}>Premium</option>
+          <option value="Pelajar" {{ 'selected' if item.membership_type == 'Pelajar' else '' }}>Pelajar</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Alamat</label>
+        <textarea name="address" class="form-control" rows="3">{{ item.address or '' }}</textarea>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Pekerjaan</label>
+        <input name="occupation" class="form-control" value="{{ item.occupation or '' }}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Tanggal Lahir</label>
+        <input name="dob" class="form-control" placeholder="YYYY-MM-DD" value="{{ item.dob.strftime('%Y-%m-%d') if item.dob else '' }}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Foto</label>
+        <input type="file" name="photo" class="form-control">
+        {% if item.photo %}<img src="{{ request.url_for('static', path=item.photo.replace('static/','')) }}" class="img-thumbnail mt-2" style="max-height:120px">{% endif %}
+      </div>
+    </div>
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-primary" type="submit">Simpan</button>
+      <a href="{{ request.url_for('admin_members') }}" class="btn btn-outline-secondary">Batal</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

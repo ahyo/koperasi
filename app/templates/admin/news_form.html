@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Berita - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h1 class="h4 fw-bold mb-3">{{ 'Edit' if item else 'Tambah' }} Berita</h1>
+  <form method="post">
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label">Judul</label>
+        <input name="title" class="form-control" value="{{ item.title if item else '' }}">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Isi Berita</label>
+        <textarea name="body" class="form-control" rows="8">{{ item.body if item else '' }}</textarea>
+      </div>
+    </div>
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-primary" type="submit">Simpan</button>
+      <a href="{{ request.url_for('admin_news') }}" class="btn btn-outline-secondary">Batal</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

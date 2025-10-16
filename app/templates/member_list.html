@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Anggota - Koperasi Kita{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
+    <h1 class="h3 fw-bold mb-0"><i class="bi bi-people-fill me-2"></i>Data Anggota</h1>
+    <form class="d-flex" method="get">
+      <input type="search" name="q" value="{{ q }}" class="form-control me-2" placeholder="Cari nama…">
+      <button class="btn btn-outline-primary">Cari</button>
+    </form>
+  </div>
+  <div class="row g-4">
+    {% for m in members %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 rounded-4 shadow-sm">
+        {% if m.photo %}
+        <img src="{{ request.url_for('static', path=m.photo.replace('static/','')) if m.photo.startswith('static/') else m.photo }}" class="card-img-top rounded-top-4 object-fit-cover" style="height:180px" alt="{{ m.name }}">
+        {% else %}
+        <div class="placeholder-img rounded-top-4 d-flex align-items-center justify-content-center" style="height:180px"><i class="bi bi-person h1"></i></div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title mb-1">{{ m.name }}</h5>
+          <div class="small text-secondary">{{ m.email }} • {{ m.phone }}</div>
+          <a href="{{ request.url_for('member_detail', member_id=m.id) }}" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-secondary">Belum ada anggota.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

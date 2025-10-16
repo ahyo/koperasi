@@ -1,0 +1,22 @@
+:root{
+  --grad-a: #3b82f6;
+  --grad-b: #0ea5e9;
+}
+.bg-gradient{
+  background: linear-gradient(90deg, var(--grad-a), var(--grad-b));
+}
+.grad-text{
+  background: linear-gradient(90deg, var(--grad-a), var(--grad-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero-bg{
+  position:absolute; inset:0;
+  background: radial-gradient(1000px 400px at 80% 10%, rgba(59,130,246,.15), transparent),
+              radial-gradient(800px 300px at 20% 90%, rgba(14,165,233,.15), transparent);
+  pointer-events:none;
+}
+.stat-card{ background: #f8fafc; border: 1px solid #eef2f7; }
+.placeholder-img{ background: #f3f6fb; border-bottom:1px solid #e9eef6; }
+.object-fit-cover{ object-fit: cover; }

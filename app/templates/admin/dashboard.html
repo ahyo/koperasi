@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block title %}Admin Dashboard - Koperasi{% endblock
+%} {% block content %}
+<div class="container py-5">
+  <h1 class="h4 fw-bold mb-4">
+    Admin Dashboard |
+    <a class="text-primary" href="{{ request.url_for('logout') }}">Logout </a>
+  </h1>
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <div class="small text-secondary">Anggota</div>
+          <div class="h3 fw-bold">{{ stats.members }}</div>
+          <a
+            href="{{ request.url_for('admin_members') }}"
+            class="stretched-link"
+            >Kelola</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <div class="small text-secondary">Kegiatan</div>
+          <div class="h3 fw-bold">{{ stats.activities }}</div>
+          <a
+            href="{{ request.url_for('admin_activities') }}"
+            class="stretched-link"
+            >Kelola</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <div class="small text-secondary">Berita</div>
+          <div class="h3 fw-bold">{{ stats.news }}</div>
+          <a href="{{ request.url_for('admin_news') }}" class="stretched-link"
+            >Kelola</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

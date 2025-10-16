@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}{{ m.name }} - Anggota{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        {% if m.photo %}
+        <img src="{{ request.url_for('static', path=m.photo.replace('static/','')) if m.photo.startswith('static/') else m.photo }}" class="rounded-top-4 w-100 object-fit-cover" style="height:280px" alt="{{ m.name }}">
+        {% else %}
+        <div class="placeholder-img rounded-top-4 d-flex align-items-center justify-content-center" style="height:280px"><i class="bi bi-person h1"></i></div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ m.name }}</h5>
+          <div class="text-secondary small">{{ m.membership_type }} • Bergabung {{ m.created_at.strftime('%d %b %Y') }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">Biodata</h5>
+          <div class="row g-3 small">
+            <div class="col-sm-6"><span class="text-secondary">Email</span><div class="fw-medium">{{ m.email }}</div></div>
+            <div class="col-sm-6"><span class="text-secondary">No. HP</span><div class="fw-medium">{{ m.phone }}</div></div>
+            <div class="col-sm-6"><span class="text-secondary">Tanggal Lahir</span><div class="fw-medium">{{ m.dob.strftime('%d %b %Y') if m.dob else '-' }}</div></div>
+            <div class="col-sm-6"><span class="text-secondary">Pekerjaan</span><div class="fw-medium">{{ m.occupation or '-' }}</div></div>
+            <div class="col-12"><span class="text-secondary">Alamat</span><div class="fw-medium">{{ m.address or '-' }}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Berita Koperasi{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h1 class="h3 fw-bold mb-4"><i class="bi bi-newspaper me-2"></i>Berita</h1>
+  <div class="row g-4">
+    {% for n in news %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 rounded-4 border-0 shadow-sm">
+        <div class="card-body">
+          <div class="small text-secondary mb-1"><i class="bi bi-clock-history me-1"></i>{{ n.created_at.strftime('%d %b %Y %H:%M') }}</div>
+          <h5 class="card-title">{{ n.title }}</h5>
+          <p class="card-text text-secondary">{{ n.body }}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-secondary">Belum ada berita.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

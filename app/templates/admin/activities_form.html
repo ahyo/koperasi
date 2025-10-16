@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Kegiatan - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h1 class="h4 fw-bold mb-3">{{ 'Edit' if item else 'Tambah' }} Kegiatan</h1>
+  {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+  <form method="post">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Judul</label>
+        <input name="title" class="form-control" value="{{ item.title if item else '' }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Tanggal</label>
+        <input name="date" class="form-control" placeholder="YYYY-MM-DD" value="{{ item.date.strftime('%Y-%m-%d') if item else '' }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Lokasi</label>
+        <input name="location" class="form-control" value="{{ item.location if item else '' }}">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Deskripsi</label>
+        <textarea name="description" class="form-control" rows="6">{{ item.description if item else '' }}</textarea>
+      </div>
+    </div>
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-primary" type="submit">Simpan</button>
+      <a href="{{ request.url_for('admin_activities') }}" class="btn btn-outline-secondary">Batal</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

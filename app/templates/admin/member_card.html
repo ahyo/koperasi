@@ -1,0 +1,109 @@
+{% extends 'base.html' %} {% block title %}Kartu Anggota · {{ m.name }}{%
+endblock %} {% block content %}
+<div class="container py-4">
+  <div class="d-print-none mb-3 d-flex gap-2">
+    <a
+      href="{{ request.url_for('admin_members') }}"
+      class="btn btn-outline-secondary"
+    >
+      ← Kembali
+    </a>
+    <button class="btn btn-primary" onclick="window.print()">
+      <i class="bi bi-printer"></i> Cetak
+    </button>
+  </div>
+
+  <!-- Lembar cetak: 1 kartu per baris; bisa di-duplikasi jika ingin multi per halaman -->
+  <div class="print-sheet">
+    <div class="member-card shadow-sm">
+      <div class="row g-0 h-100">
+        <div class="col-5 photo-side">
+          {% if m.photo %}
+          <img
+            src="{{ request.url_for('static', path=m.photo.replace('static/','')) if m.photo.startswith('static/') else m.photo }}"
+            alt="{{ m.name }}"
+            class="photo"
+          />
+          {% else %}
+          <div
+            class="photo placeholder d-flex align-items-center justify-content-center"
+          >
+            <i class="bi bi-person fs-1"></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-7 p-3 d-flex flex-column justify-content-between">
+          <div>
+            <div class="brand fw-bold mb-1">
+              <i class="bi bi-people-fill me-1"></i> Koperasi Kita
+            </div>
+            <div class="name h5 fw-bold mb-1">{{ m.name }}</div>
+            <div class="small text-secondary mb-2">ID: {{ m.id }}</div>
+            <div
+              class="badge bg-primary-subtle text-primary-emphasis rounded-pill px-2 py-1 mb-2"
+            >
+              {{ m.membership_type }}
+            </div>
+            <div class="small text-secondary">
+              Bergabung: {{ m.created_at.strftime('%d %b %Y') }}
+            </div>
+          </div>
+          <div class="small text-muted">{{ m.email }} • {{ m.phone }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Ukuran kartu standar ID: 85.6mm × 54mm (CR80). Tambah bleed & padding tipis */
+  .member-card {
+    width: 86mm;
+    height: 54mm;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e6ecf5;
+  }
+  .photo-side {
+    background: linear-gradient(160deg, #e7f0ff, #f2f8ff);
+    height: 100%;
+  }
+  .photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .photo.placeholder {
+    height: 100%;
+    color: #7a8aa0;
+  }
+  .brand {
+    letter-spacing: 0.2px;
+  }
+  .print-sheet {
+    display: grid;
+    gap: 12mm;
+  }
+
+  /* Atur layout untuk cetak */
+  @media print {
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+    .navbar,
+    .d-print-none,
+    footer {
+      display: none !important;
+    }
+    body {
+      background: #fff !important;
+    }
+    .print-sheet {
+      grid-template-columns: repeat(2, 86mm); /* 2 kolom per baris di A4 */
+      gap: 10mm 14mm;
+    }
+  }
+</style>
+{% endblock %}
