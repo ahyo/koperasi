@@ -79,10 +79,10 @@
               %Y') }} • {{ a.location or '—' }}
             </div>
             <h5 class="card-title">{{ a.title }}</h5>
-            <p class="card-text text-secondary">
-              {{ a.description[:120] ~ ('…' if a.description|length>120 else '')
-              | safe }}
-            </p>
+            <div class="card-text text-secondary">
+              {{ (a.description[:120] ~ ('…' if a.description|length > 120 else
+              '')) | safe }}
+            </div>
           </div>
         </div>
       </div>
@@ -114,9 +114,10 @@
                 n.created_at.strftime('%d %b %Y %H:%M') }}
               </div>
               <h5 class="card-title">{{ n.title }}</h5>
-              <p class="card-text text-secondary">
-                {{ n.body[:200] ~ ('…' if n.body|length>200 else '') | safe}}
-              </p>
+              <div class="card-text text-secondary">
+                {{ (n.body[:200] ~ ('…' if n.body|length > 200 else '')) | safe
+                }}
+              </div>
             </div>
           </div>
         </div>
