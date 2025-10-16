@@ -11,8 +11,17 @@ block content %}
             <i class="bi bi-clock-history me-1"></i>{{ n.created_at.strftime('%d
             %b %Y %H:%M') }}
           </div>
-          <h5 class="card-title">{{ n.title }}</h5>
-          <p class="card-text text-secondary">{{ n.body | safe }}</p>
+          <h5 class="card-title mb-1">
+            <a
+              href="{{ request.url_for('news_detail', news_id=n.id) }}"
+              class="stretched-link text-decoration-none"
+            >
+              {{ n.title }}
+            </a>
+          </h5>
+          <p class="card-text text-secondary line-clamp-3">
+            {{ (n.body | striptags) | truncate(200, True, '…') }}
+          </p>
         </div>
       </div>
     </div>
