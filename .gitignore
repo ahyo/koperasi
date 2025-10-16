@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 .venv
+app/static/img/uploads
 # Distribution / packaging
 .Python
 build/
