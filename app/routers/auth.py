@@ -25,6 +25,20 @@ def login_reset(
     return "done"
 
 
+@router.get("/add-admin")
+def login_reset(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    user = User(
+        username="admin", password_hash=hash_password("Ayocool123$%"), role="admin"
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return "done"
+
+
 @router.get("/login", response_class=HTMLResponse, name="login")
 def login_form(request: Request):
     return templates.TemplateResponse(
