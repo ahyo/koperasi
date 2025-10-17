@@ -5,19 +5,18 @@ block content %}
   <div class="row g-4">
     {% for n in news %}
     <div class="col-md-6 col-lg-4">
-      <div class="card h-100 rounded-4 border-0 shadow-sm">
+      <div class="card h-100 rounded-4 border-0 shadow-sm position-relative">
         <div class="card-body">
           <div class="small text-secondary mb-1">
-            <i class="bi bi-clock-history me-1"></i>{{ n.created_at.strftime('%d
-            %b %Y %H:%M') }}
+            <i class="bi bi-clock-history me-1"></i>
+            {{ n.created_at.strftime('%d %b %Y %H:%M') }}
           </div>
           <h5 class="card-title mb-1">
             <a
               href="{{ request.url_for('news_detail', news_id=n.id) }}"
               class="stretched-link text-decoration-none"
+              >{{ n.title }}</a
             >
-              {{ n.title }}
-            </a>
           </h5>
           <p class="card-text text-secondary line-clamp-3">
             {{ (n.body | striptags) | truncate(200, True, '…') }}
@@ -25,8 +24,6 @@ block content %}
         </div>
       </div>
     </div>
-    {% else %}
-    <p class="text-secondary">Belum ada berita.</p>
     {% endfor %}
   </div>
 </div>
