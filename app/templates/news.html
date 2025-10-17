@@ -4,19 +4,22 @@ block content %}
   <h1 class="h3 fw-bold mb-4"><i class="bi bi-newspaper me-2"></i>Berita</h1>
   <div class="row g-4">
     {% for n in news %}
-    <div class="col-md-6 col-lg-4">
-      <div class="card h-100 rounded-4 border-0 shadow-sm position-relative">
-        <div class="card-body">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div
+        class="card h-100 rounded-4 border-0 shadow-sm position-relative z-0"
+      >
+        <div class="card-body position-relative">
           <div class="small text-secondary mb-1">
-            <i class="bi bi-clock-history me-1"></i>
-            {{ n.created_at.strftime('%d %b %Y %H:%M') }}
+            <i class="bi bi-clock-history me-1"></i>{{ n.created_at.strftime('%d
+            %b %Y %H:%M') }}
           </div>
           <h5 class="card-title mb-1">
             <a
               href="{{ request.url_for('news_detail', news_id=n.id) }}"
-              class="stretched-link text-decoration-none"
-              >{{ n.title }}</a
+              class="stretched-link text-decoration-none position-relative z-1"
             >
+              {{ n.title }}
+            </a>
           </h5>
           <p class="card-text text-secondary line-clamp-3">
             {{ (n.body | striptags) | truncate(200, True, '…') }}
