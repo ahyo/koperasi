@@ -139,7 +139,7 @@
           </div>
 
           <!-- Info Kontak -->
-          <div class="col-6 col-lg-3">
+          <div class="col-6 col-lg-4">
             <div class="footer-heading">Info Kontak</div>
             <div class="text-white fw-semibold">Alamat Kantor Pusat</div>
             <div class="text-footer-muted mb-3" style="font-size: small">
@@ -163,7 +163,7 @@
           </div>
 
           <!-- Help -->
-          <div class="col-6 col-lg-2">
+          <div class="col-6 col-lg-4">
             <div class="footer-heading">Help</div>
             <ul class="list-unstyled">
               <li class="mb-2"><a class="footer-link" href="#">About us</a></li>
@@ -172,35 +172,6 @@
                 <a class="footer-link" href="#">Privacy policy</a>
               </li>
             </ul>
-          </div>
-
-          <!-- Pengunjung -->
-          <div class="col-12 col-lg-3">
-            <div class="footer-heading mb-3">Pengunjung</div>
-
-            <div class="visitor-item mb-2">
-              <div class="text-footer-muted">Hari ini</div>
-              <div class="visitor-count">
-                {{ visitors_today if visitors_today is defined else 10 }}
-                Pengunjung
-              </div>
-            </div>
-
-            <div class="visitor-item mb-2">
-              <div class="text-footer-muted">Bulan ini</div>
-              <div class="visitor-count">
-                {{ visitors_month if visitors_month is defined else 209 }}
-                Pengunjung
-              </div>
-            </div>
-
-            <div class="visitor-item">
-              <div class="text-footer-muted">Total</div>
-              <div class="visitor-count">
-                {{ visitors_total if visitors_total is defined else 20901 }}
-                Pengunjung
-              </div>
-            </div>
           </div>
         </div>
 
