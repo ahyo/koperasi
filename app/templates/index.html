@@ -1,87 +1,81 @@
 {% extends 'base.html' %} {% block title %}Koperasi Kita - Beranda{% endblock %}
 {% block content %}
-<section class="hero position-relative overflow-hidden">
+<section class="hero-banner d-flex align-items-center text-white">
   <div class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <h1 class="display-5 fw-bold lh-1 mb-3">
-          Gabung Koperasi, <span class="grad-text">Maju Bersama</span>
+    <div class="row align-items-center gy-4">
+      <!-- Kiri: teks -->
+      <div class="col-lg-7">
+        <h1 class="display-5 fw-bold mb-3">
+          Koperasi <span class="text-accent">Kita</span>
         </h1>
-        <p class="lead text-secondary">
-          Pendaftaran anggota online, informasi kegiatan, dan berita
-          terbaru—semua dalam satu tempat.
+        <p class="lead mb-4 opacity-90">
+          Bersama membangun kesejahteraan melalui partisipasi anggota, informasi
+          kegiatan, dan berita terkini seputar koperasi.
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex flex-wrap gap-3">
           <a
             href="{{ request.url_for('register') }}"
-            class="btn btn-primary btn-lg"
-            ><i class="bi bi-person-plus me-2"></i>Daftar Sekarang</a
+            class="btn btn-light btn-lg px-4 shadow-sm"
           >
+            <i class="bi bi-person-plus me-2"></i>Daftar Anggota
+          </a>
           <a
             href="{{ request.url_for('activities') }}"
-            class="btn btn-outline-primary btn-lg"
-            ><i class="bi bi-calendar-event me-2"></i>Lihat Kegiatan</a
+            class="btn btn-outline-light btn-lg px-4"
           >
+            <i class="bi bi-calendar-event me-2"></i>Lihat Kegiatan
+          </a>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="hero-card shadow-lg rounded-4 p-4 bg-white">
-          <div class="row g-3">
-            <div class="col-6">
-              <div class="stat-card p-3 rounded-4 text-center">
-                <div class="h3 mb-0 fw-bold">{{ news|length }}</div>
-                <div class="small text-secondary">Berita Terbaru</div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="stat-card p-3 rounded-4 text-center">
-                <div class="h3 mb-0 fw-bold">{{ activities|length }}</div>
-                <div class="small text-secondary">Kegiatan Dekat Ini</div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="p-3 rounded-4 bg-light border">
-                <div
-                  class="small text-uppercase text-secondary fw-semibold mb-2"
-                >
-                  Sorotan
-                </div>
-                <ul class="list-unstyled mb-0">
-                  {% for n in news %}
-                  <li class="mb-1"><i class="bi bi-dot"></i> {{ n.title }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+
+      <!-- Kanan: statistik / ilustrasi -->
+      <div class="col-lg-5 text-center">
+        <img
+          src="{{ request.url_for('static', path='img/koperasi.png') }}"
+          alt="Koperasi"
+          class="img-fluid hero-image"
+        />
       </div>
     </div>
   </div>
+
+  <!-- background pattern / wave -->
   <div class="hero-bg"></div>
 </section>
 
-<section class="py-5 bg-light">
-  <div class="container">
+<section class="section-activities">
+  <div class="container py-6">
     <div class="d-flex align-items-center justify-content-between mb-4">
-      <h2 class="h4 fw-bold mb-0">Kegiatan Terdekat</h2>
-      <a href="{{ request.url_for('activities') }}" class="text-decoration-none"
-        >Semua kegiatan →</a
+      <h2 class="h4 fw-bold mb-0" style="color: #154b9a">Kegiatan Terdekat</h2>
+      <a
+        href="{{ request.url_for('activities') }}"
+        class="text-decoration-none text-grey-50"
       >
+        Semua kegiatan →
+      </a>
     </div>
+
     <div class="row g-4">
       {% for a in activities %}
       <div class="col-md-4">
-        <div class="card h-100 rounded-4 shadow-sm">
-          <div class="card-body">
-            <div class="small text-secondary mb-1">
+        <div
+          class="card activity-card h-100 rounded-4 shadow-sm d-flex flex-column"
+        >
+          <!-- Meta bar -->
+          <div class="activity-meta">
+            <span class="badge date-badge">
               <i class="bi bi-calendar-event me-1"></i>{{ a.date.strftime('%d %b
-              %Y') }} • {{ a.location or '—' }}
-            </div>
-            <h5 class="card-title mb-1">
+              %Y') }}
+            </span>
+            <span class="text-location"> {{ a.location or '—' }} </span>
+          </div>
+
+          <!-- Body -->
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title mb-2">
               <a
                 href="{{ request.url_for('activity_detail', activity_id=a.id) }}"
-                class="stretched-link text-decoration-none"
+                class="stretched-link text-decoration-none text-dark"
               >
                 {{ a.title }}
               </a>
@@ -89,47 +83,407 @@
             <p class="card-text text-secondary line-clamp-3">
               {{ (a.description | striptags) | truncate(160, True, '…') }}
             </p>
+
+            <!-- Footer -->
+            <div
+              class="mt-auto pt-2 d-flex align-items-center justify-content-between"
+            >
+              <span class="badge badge-brand">Terbuka</span>
+              <a
+                href="{{ request.url_for('activity_detail', activity_id=a.id) }}"
+                class="btn btn-sm btn-outline-primary"
+              >
+                Detail
+              </a>
+            </div>
           </div>
         </div>
       </div>
       {% else %}
-      <p class="text-secondary">Belum ada kegiatan.</p>
+      <p class="text-white-50">Belum ada kegiatan.</p>
       {% endfor %}
     </div>
   </div>
+
+  <!-- latar dekoratif -->
+  <div class="activities-bg"></div>
 </section>
 
-<section class="py-5">
+<section class="section-services py-6">
   <div class="container">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-      <h2 class="h4 fw-bold mb-0">Berita Terbaru</h2>
-      <a href="{{ request.url_for('news') }}" class="text-decoration-none"
-        >Semua berita →</a
+    <h2 class="fw-bold mb-4">Pelayanan yang Kami Tawarkan</h2>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs services-tabs mb-4" id="servicesTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="tab-tes"
+          data-bs-toggle="tab"
+          data-bs-target="#pane-tes"
+          type="button"
+          role="tab"
+          aria-controls="pane-tes"
+          aria-selected="true"
+        >
+          <i class="bi bi-mortarboard me-2"></i> Penyelenggaraan Tes
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="tab-simpan"
+          data-bs-toggle="tab"
+          data-bs-target="#pane-simpan"
+          type="button"
+          role="tab"
+          aria-controls="pane-simpan"
+          aria-selected="false"
+        >
+          <i class="bi bi-piggy-bank me-2"></i> Simpan Pinjam
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="tab-toko"
+          data-bs-toggle="tab"
+          data-bs-target="#pane-toko"
+          type="button"
+          role="tab"
+          aria-controls="pane-toko"
+          aria-selected="false"
+        >
+          <i class="bi bi-shop me-2"></i> Toko dan Kantin
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="tab-travel"
+          data-bs-toggle="tab"
+          data-bs-target="#pane-travel"
+          type="button"
+          role="tab"
+          aria-controls="pane-travel"
+          aria-selected="false"
+        >
+          <i class="bi bi-bus-front me-2"></i> Travel
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="tab-sosial"
+          data-bs-toggle="tab"
+          data-bs-target="#pane-sosial"
+          type="button"
+          role="tab"
+          aria-controls="pane-sosial"
+          aria-selected="false"
+        >
+          <i class="bi bi-people me-2"></i> Dana Sosial
+        </button>
+      </li>
+    </ul>
+
+    <!-- Panes -->
+    <div class="tab-content" id="servicesTabContent">
+      <!-- Pane: Penyelenggaraan Tes -->
+      <div
+        class="tab-pane fade show active"
+        id="pane-tes"
+        role="tabpanel"
+        aria-labelledby="tab-tes"
+        tabindex="0"
       >
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h3 class="h4 fw-bold text-brand-700 mb-3">
+              Penyelenggaraan Tes UUOPT
+            </h3>
+            <p class="text-secondary">
+              Bertujuan untuk promosi jabatan, kenaikan golongan, perekrutan
+              pegawai, sertifikasi dosen, dan beasiswa/sekolah di dalam dan luar
+              negeri. Melayani penyelenggaraan tes seperti:
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Tes
+                Potensi Akademik (TPA)
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Tes
+                Potensi Intelektual Umum (TPIU)
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Tes
+                Potensi Dasar Akademik (TKDA)
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>TOEFL,
+                TOEIC
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Try Out
+                &amp; Seminar CPNS
+              </li>
+            </ul>
+            <a
+              href="#"
+              class="btn btn-outline-primary btn-lg rounded-pill px-4"
+            >
+              Daftar UUOPT Bappenas <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+          </div>
+          <div class="col-lg-5">
+            <div class="ratio ratio-16x9">
+              <img
+                src="{{ request.url_for('static', path='img/layanan-tes.jpg') }}"
+                class="img-fluid rounded-4 shadow-sm object-fit-cover"
+                onerror="this.src='{{ request.url_for('static', path='img/koperasi.png') }}';"
+                alt="Penyelenggaraan Tes"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane: Simpan Pinjam -->
+      <div
+        class="tab-pane fade"
+        id="pane-simpan"
+        role="tabpanel"
+        aria-labelledby="tab-simpan"
+        tabindex="0"
+      >
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h3 class="h4 fw-bold text-brand-700 mb-3">Simpan Pinjam</h3>
+            <p class="text-secondary">
+              Layanan simpanan dan pinjaman berbunga ringan, transparan, dan
+              akuntabel.
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i
+                >Simpanan Wajib &amp; Sukarela
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i
+                >Pinjaman Multiguna
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i
+                >Simulasi cicilan realtime
+              </li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary rounded-pill px-4"
+              >Lihat Syarat</a
+            >
+          </div>
+          <div class="col-lg-5">
+            <div class="ratio ratio-16x9">
+              <img
+                src="{{ request.url_for('static', path='img/layanan-simpan.jpg') }}"
+                class="img-fluid rounded-4 shadow-sm object-fit-cover"
+                onerror="this.src='{{ request.url_for('static', path='img/koperasi.png') }}';"
+                alt="Simpan Pinjam"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane: Toko dan Kantin -->
+      <div
+        class="tab-pane fade"
+        id="pane-toko"
+        role="tabpanel"
+        aria-labelledby="tab-toko"
+        tabindex="0"
+      >
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h3 class="h4 fw-bold text-brand-700 mb-3">Toko dan Kantin</h3>
+            <p class="text-secondary">
+              Penyediaan kebutuhan harian, paket sembako, dan layanan kantin
+              bagi anggota.
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Produk
+                mitra berkualitas
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Program
+                diskon anggota
+              </li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary rounded-pill px-4"
+              >Katalog</a
+            >
+          </div>
+          <div class="col-lg-5">
+            <div class="ratio ratio-16x9">
+              <img
+                src="{{ request.url_for('static', path='img/layanan-toko.jpg') }}"
+                class="img-fluid rounded-4 shadow-sm object-fit-cover"
+                onerror="this.src='{{ request.url_for('static', path='img/koperasi.png') }}';"
+                alt="Toko dan Kantin"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane: Travel -->
+      <div
+        class="tab-pane fade"
+        id="pane-travel"
+        role="tabpanel"
+        aria-labelledby="tab-travel"
+        tabindex="0"
+      >
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h3 class="h4 fw-bold text-brand-700 mb-3">Travel</h3>
+            <p class="text-secondary">
+              Layanan perjalanan dinas/umum dengan mitra resmi dan harga
+              kompetitif.
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Tiket
+                pesawat/kereta
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Hotel
+                &amp; penginapan
+              </li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary rounded-pill px-4"
+              >Ajukan Permintaan</a
+            >
+          </div>
+          <div class="col-lg-5">
+            <div class="ratio ratio-16x9">
+              <img
+                src="{{ request.url_for('static', path='img/layanan-travel.jpg') }}"
+                class="img-fluid rounded-4 shadow-sm object-fit-cover"
+                onerror="this.src='{{ request.url_for('static', path='img/koperasi.png') }}';"
+                alt="Travel"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane: Dana Sosial -->
+      <div
+        class="tab-pane fade"
+        id="pane-sosial"
+        role="tabpanel"
+        aria-labelledby="tab-sosial"
+        tabindex="0"
+      >
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h3 class="h4 fw-bold text-brand-700 mb-3">Dana Sosial</h3>
+            <p class="text-secondary">
+              Program kepedulian dan bantuan untuk anggota dan lingkungan.
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>Bantuan
+                duka/kemalangan
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i
+                >Beasiswa pendidikan
+              </li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary rounded-pill px-4"
+              >Panduan Pengajuan</a
+            >
+          </div>
+          <div class="col-lg-5">
+            <div class="ratio ratio-16x9">
+              <img
+                src="{{ request.url_for('static', path='img/layanan-sosial.jpg') }}"
+                class="img-fluid rounded-4 shadow-sm object-fit-cover"
+                onerror="this.src='{{ request.url_for('static', path='img/koperasi.png') }}';"
+                alt="Dana Sosial"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /tab-content -->
+  </div>
+</section>
+
+<section class="section-news">
+  <div class="container py-6">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 class="h5 fw-bold mb-0">Berita Terbaru</h2>
+      <a
+        href="{{ request.url_for('news') }}"
+        class="text-decoration-none text-secondary"
+      >
+        Semua berita →
+      </a>
     </div>
 
     {% if news %}
-    <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div
+      id="newsCarousel"
+      class="carousel slide"
+      data-bs-ride="carousel"
+      data-bs-interval="7000"
+    >
       <div class="carousel-inner">
         {% for n in news %}
         <div class="carousel-item {% if loop.first %}active{% endif %}">
-          <div class="card h-100 rounded-4 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="small text-secondary mb-1">
-                <i class="bi bi-clock-history me-1"></i>{{
-                n.created_at.strftime('%d %b %Y %H:%M') }}
+          <div class="row align-items-stretch g-4">
+            <!-- Kiri: Gambar atau placeholder -->
+            <div class="col-md-6">
+              <div class="news-img-wrapper rounded-4 overflow-hidden shadow-sm">
+                {% if n.image_url %}
+                <img
+                  src="{{ n.image_url }}"
+                  alt="{{ n.title }}"
+                  class="news-img"
+                />
+                {% else %}
+                <img
+                  src="{{ request.url_for('static', path='img/default-news.jpg') }}"
+                  alt="Berita"
+                  class="news-img"
+                />
+                {% endif %}
               </div>
-              <h5 class="card-title mb-1">
+            </div>
+
+            <!-- Kanan: Konten -->
+            <div class="col-md-6 d-flex flex-column justify-content-center">
+              <div class="news-content p-3 p-md-4">
+                <div class="small text-muted mb-2">
+                  <i class="bi bi-clock-history me-1"></i>{{
+                  n.created_at.strftime('%d %b %Y %H:%M') }}
+                </div>
+                <h3 class="fw-bold mb-3 text-brand-700">{{ n.title }}</h3>
+                <p class="text-secondary mb-4 line-clamp-4">
+                  {{ (n.body | striptags) | truncate(350, True, '…') }}
+                </p>
                 <a
                   href="{{ request.url_for('news_detail', news_id=n.id) }}"
-                  class="stretched-link text-decoration-none"
+                  class="btn btn-outline-primary rounded-pill px-4"
                 >
-                  {{ n.title }}
+                  Baca Selengkapnya
                 </a>
-              </h5>
-              <p class="card-text text-secondary line-clamp-3">
-                {{ (n.body | striptags) | truncate(200, True, '…') }}
-              </p>
+              </div>
             </div>
           </div>
         </div>
@@ -157,14 +511,13 @@
       </button>
 
       <!-- Indicators -->
-      <div class="carousel-indicators mt-3">
-        {% for n in news %}
+      <div class="carousel-indicators mt-4">
+        {% for _ in news %}
         <button
           type="button"
           data-bs-target="#newsCarousel"
           data-bs-slide-to="{{ loop.index0 }}"
           class="{% if loop.first %}active{% endif %}"
-          aria-current="{{ 'true' if loop.first else 'false' }}"
           aria-label="Slide {{ loop.index }}"
         ></button>
         {% endfor %}
@@ -175,4 +528,5 @@
     {% endif %}
   </div>
 </section>
+
 {% endblock %}
